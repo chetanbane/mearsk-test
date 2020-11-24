@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Grid Demo</title>
+    <style>
+      .wrap{
+        width: 100%;
+        max-width:960px;
+        margin: 0 auto;
+      }
+      .wrap p{
+        border-bottom: 3px solid #999;
+        text-align: center;
+        line-height: 24px;
+        margin-bottom: 0;
+      }
+      .container{
+        width: 100%;
+        background: #EFEFEF;
+        overflow: hidden;
+        padding-bottom: 20px;
+        position: relative;
+        min-height: 580px;
+      }
+      .container .row{
+        display: flex;
+        flex-direction: row-reverse;
+      }
+      .container .buttons-panel{
+        width: 25%;
+        text-align: center;
+        padding-top: 20px;
+      }
+      .container .buttons-panel .primary-btn{
+        background-color: #72C3DC;
+        padding:8px 15px;
+        text-align: center;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        border-bottom: 5px solid #2B8EAD;
+        font-size: 16px;
+      }
+      .container .buttons-panel .primary-btn:focus, .container .buttons-panel .primary-btn:active{
+        border: none;
+        outline: none;
+        padding:8px 15px 13px;
+      }
+
+      .container .div-panel{
+        width: 75%;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .container .div-panel div{
+        width: 33%;
+        height: 40%;
+        align-content: center;
+        /* display: flex; */
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
+        -ms-flex: 0 0 33%;
+        flex: 0 0 33%;
+        max-width: 33%;
+        text-align: center;
+        padding: 40px 0 0; 
+        font-size: 60px;
+        color: #fff;
+      }
+      .item-1{
+        background: #000;
+      }
+      .item-2{
+        background: #333333;
+      }
+      .item-3{
+        background: #fff;
+        color: #000 !important;
+      }
+      .item-4{
+        background: #EFEFEF;
+        color: #000 !important;
+      }
+      .item-5{
+        background: #72C3DC;
+      }
+      .item-6{
+        background: #2B8EAD;
+      }
+      .item-7{
+        background: #6F98A8;
+      }
+      .item-8{
+        background: #BFBFBF;
+      }
+      .item-9{
+        background: #2F454E;
+      }
+      .sorterBy{
+        position: absolute;
+        bottom: 50px;
+        right: 25%;
+      }
+      @media (max-width: 991px) {
+        .container{
+          background: #fff;
+          min-height: auto;
+        }
+        .container .row{
+          flex-direction: column;
+        }
+        .container .row > div{
+        width: 100%;
+        padding: 10px 15px;
+        }
+        .container .div-panel{
+          flex-direction: column;
+          padding: 10px 2px !important;
+        }
+        .container .div-panel div{
+          width: 100%;
+          max-width: 100%;
+          font-size: 20px;
+          background: #eeeeee;
+          padding: 10px 0;
+          color: #000;
+          margin-bottom: 4px;
+          position: relative;
+        }
+        .container .div-panel div::before{
+          content: '';
+          width: 8px;
+          height: 100%;
+          left: 0;
+          top: 0;
+          position: absolute;
+          z-index: 1;
+        }
+        .item-1::before{
+          background: #000;
+        }
+        .item-2::before{
+          background: #333333;
+        }
+        .item-3::before{
+          background: #2F454E;
+        }
+        .item-4::before{
+          background: #BFBFBF;
+        }
+        .item-5::before{
+          background: #72C3DC;
+        }
+        .item-6::before{
+          background: #2B8EAD;
+        }
+        .item-7::before{
+          background: #6F98A8;
+        }
+        .item-8::before{
+          background: #BFBFBF;
+        }
+        .item-9::before{
+          background: #2F454E;
+        }
+        .sorterBy{
+          position: relative;
+          width: 100%;
+          bottom: 0;
+          right: 0;
+          padding-top: 15px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="text-center">
+        Shuffle and Sort
+      </p>
+      <div class="container">
+        <div class="row">
+          <div class="buttons-panel">
+            <button class="primary-btn" onclick="random()">SHUFFLE</button>
+            <button class="primary-btn" onclick="sort()">SORT</button>
+          </div>
+          <div id="itemsBlock" class="div-panel"></div>
+        </div>
+        <div class="sorterBy">Shuffle and Sort by Chetan Bane</div>
+      </div>
+      
+    </div>
+    <script>
+      const count = [1,2,3,4,5,6,7,8,9];
+      loadDivs(count)
+      function loadDivs(count){
+        document.getElementById('itemsBlock').innerHTML = "";
+        // console.log(count);
+        for(i = 0; i < count.length; i++){
+          let item = document.createElement('div');
+          item.className = 'item-'+count[i];
+          let textVal = document.createTextNode(count[i]);
+          item.appendChild(textVal);
+          document.getElementById('itemsBlock').appendChild(item); 
+        };
+      };
+      function random(){
+        var currentArray = count;
+        randNo(currentArray);
+        // console.log(currentArray);
+        loadDivs(currentArray)
+      };
+
+      function randNo(array){
+        array.sort(() => Math.random() - 0.5);
+      }
+
+      function sort(){
+        var currentArray = [1,2,3,4,5,6,7,8,9];
+        // console.log(currentArray)
+        loadDivs(currentArray)
+      };
+    </script>
+  </body>
+</html>
